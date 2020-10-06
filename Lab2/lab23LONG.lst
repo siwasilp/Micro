@@ -1,0 +1,210 @@
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 1
+
+
+
+
+
+       MCS-51 Family Macro Assembler   A S E M - 5 1   V 1.3
+       =====================================================
+
+
+
+	Source File:	D:\LAB-Microprocessor\Lab2\lab23LONG.ASM
+	Object File:	D:\LAB-Microprocessor\Lab2\lab23LONG.hex
+	List File:	D:\LAB-Microprocessor\Lab2\lab23LONG.lst
+
+
+
+ Line  I  Addr  Code            Source
+
+    1:				;==== LAB23.ASM "LONG" ====
+    2:		N      8000		ORG	8000H
+    3:	  8000	90 E0 60	START:	MOV	DPTR,#0E060H
+    4:	  8003	74 3F			MOV	A,#3FH	;Show 0
+    5:	  8005	F0			MOVX	@DPTR,A
+    6:	  8006	12 80 63		CALL	DELAY
+    7:
+    8:	  8009	74 06			MOV	A,#06H	;Show 1
+    9:	  800B	F0			MOVX	@DPTR,A
+   10:	  800C	12 80 63		CALL	DELAY
+   11:
+   12:	  800F	74 5B			MOV	A,#5BH	;Show 2
+   13:	  8011	F0			MOVX	@DPTR,A
+   14:	  8012	12 80 63		CALL	DELAY
+   15:
+   16:	  8015	74 4F			MOV	A,#4FH	;Show 3
+   17:	  8017	F0			MOVX	@DPTR,A
+   18:	  8018	12 80 63		CALL	DELAY
+   19:
+   20:	  801B	74 66			MOV	A,#66H	;Show 4
+   21:	  801D	F0			MOVX	@DPTR,A
+   22:	  801E	12 80 63		CALL	DELAY
+   23:
+   24:	  8021	74 6D			MOV	A,#6DH	;Show 5
+   25:	  8023	F0			MOVX	@DPTR,A
+   26:	  8024	12 80 63		CALL	DELAY
+   27:
+   28:	  8027	74 7D			MOV	A,#7DH	;Show 6
+   29:	  8029	F0			MOVX	@DPTR,A
+   30:	  802A	12 80 63		CALL	DELAY
+   31:
+   32:	  802D	74 07			MOV	A,#07H	;Show 7
+   33:	  802F	F0			MOVX	@DPTR,A
+   34:	  8030	12 80 63		CALL	DELAY
+   35:
+   36:	  8033	74 7F			MOV	A,#7FH	;Show 8
+   37:	  8035	F0			MOVX	@DPTR,A
+   38:	  8036	12 80 63		CALL	DELAY
+   39:
+   40:	  8039	74 6F			MOV	A,#6FH	;Show 9
+   41:	  803B	F0			MOVX	@DPTR,A
+   42:	  803C	12 80 63		CALL	DELAY
+   43:
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 2
+
+
+
+ Line  I  Addr  Code            Source
+
+   44:	  803F	74 77			MOV	A,#77H	;Show A
+   45:	  8041	F0			MOVX	@DPTR,A
+   46:	  8042	12 80 63		CALL	DELAY
+   47:
+   48:	  8045	74 7C			MOV	A,#7CH	;Show B
+   49:	  8047	F0			MOVX	@DPTR,A
+   50:	  8048	12 80 63		CALL	DELAY
+   51:
+   52:	  804B	74 39			MOV	A,#39H	;Show C
+   53:	  804D	F0			MOVX	@DPTR,A
+   54:	  804E	12 80 63		CALL	DELAY
+   55:
+   56:	  8051	74 5E			MOV	A,#5EH	;Show D
+   57:	  8053	F0			MOVX	@DPTR,A
+   58:	  8054	12 80 63		CALL	DELAY
+   59:
+   60:	  8057	74 79			MOV	A,#79H	;Show E
+   61:	  8059	F0			MOVX	@DPTR,A
+   62:	  805A	12 80 63		CALL	DELAY
+   63:
+   64:	  805D	74 71			MOV	A,#71H	;Show F
+   65:	  805F	F0			MOVX	@DPTR,A
+   66:	  8060	12 80 63		CALL	DELAY
+   67:
+   68:	  8063	7D 04		DELAY:	MOV	R5,#04
+   69:	  8065	7E C8		DELAY1:	MOV	R6,#200
+   70:	  8067	7F C8		DELAY2:	MOV	R7,#200
+   71:	  8069	DF FE		DELAY3:	DJNZ	R7,DELAY3
+   72:	  806B	DE FA			DJNZ	R6,DELAY2
+   73:	  806D	DD F6			DJNZ	R5,DELAY1
+   74:	  806F	22			RET
+   75:
+   76:					END
+
+
+
+
+
+                     register banks used:  ---
+
+                     no errors
+
+
+
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 3
+
+
+
+
+
+	       L I S T   O F   S Y M B O L S
+	       =============================
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+??ASEM_51			  NUMBER    8051
+??VERSION			  NUMBER    0130
+AC				  BIT	      D6
+ACC				  DATA	      E0
+B				  DATA	      F0
+CY				  BIT	      D7
+DELAY				  CODE	    8063	  68
+DELAY1				  CODE	    8065	  69
+DELAY2				  CODE	    8067	  70
+DELAY3				  CODE	    8069	  71
+DPH				  DATA	      83
+DPL				  DATA	      82
+EA				  BIT	      AF
+ES				  BIT	      AC
+ET0				  BIT	      A9
+ET1				  BIT	      AB
+EX0				  BIT	      A8
+EX1				  BIT	      AA
+EXTI0				  CODE	    0003
+EXTI1				  CODE	    0013
+F0				  BIT	      D5
+IE				  DATA	      A8
+IE0				  BIT	      89
+IE1				  BIT	      8B
+INT0				  BIT	      B2
+INT1				  BIT	      B3
+IP				  DATA	      B8
+IT0				  BIT	      88
+IT1				  BIT	      8A
+OV				  BIT	      D2
+P				  BIT	      D0
+P0				  DATA	      80
+P1				  DATA	      90
+P2				  DATA	      A0
+P3				  DATA	      B0
+PCON				  DATA	      87
+PS				  BIT	      BC
+PSW				  DATA	      D0
+PT0				  BIT	      B9
+PT1				  BIT	      BB
+PX0				  BIT	      B8
+PX1				  BIT	      BA
+RB8				  BIT	      9A
+RD				  BIT	      B7
+REN				  BIT	      9C
+RESET				  CODE	    0000
+RI				  BIT	      98
+RS0				  BIT	      D3
+RS1				  BIT	      D4
+RXD				  BIT	      B0
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 4
+
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+SBUF				  DATA	      99
+SCON				  DATA	      98
+SINT				  CODE	    0023
+SM0				  BIT	      9F
+SM1				  BIT	      9E
+SM2				  BIT	      9D
+SP				  DATA	      81
+START				  CODE	    8000	   3
+T0				  BIT	      B4
+T1				  BIT	      B5
+TB8				  BIT	      9B
+TCON				  DATA	      88
+TF0				  BIT	      8D
+TF1				  BIT	      8F
+TH0				  DATA	      8C
+TH1				  DATA	      8D
+TI				  BIT	      99
+TIMER0				  CODE	    000B
+TIMER1				  CODE	    001B
+TL0				  DATA	      8A
+TL1				  DATA	      8B
+TMOD				  DATA	      89
+TR0				  BIT	      8C
+TR1				  BIT	      8E
+TXD				  BIT	      B1
+WR				  BIT	      B6

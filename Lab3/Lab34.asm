@@ -1,0 +1,12 @@
+;Lab34.asm
+
+	ORG	0000H	;1
+START:	MOV	A,#15H	;2
+	MOV	R0,#23H	;3
+	MOV	R4,#30H	;4
+	MOV	22H,#40H	;5
+	MOV	@R0,#45H	;6
+	MOV	DPTR,#8ABCH	;7
+	MOVX	@DPTR,A	;8
+	SJMP	$	;9
+	END		;10

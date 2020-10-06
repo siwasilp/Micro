@@ -1,0 +1,12 @@
+;Lab31.asm
+
+		ORG	0000H	;1
+START31:	MOV	A,22H	;2
+		MOV	24H,A	;3
+		MOV	R0,24H	;4
+		MOV	R7,23H	;5
+		MOV	27H,R0	;6
+		MOV	28H,R7	;7
+		MOV	22H,23H	;8
+		SJMP	$	;9
+		END		;10

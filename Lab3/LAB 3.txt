@@ -1,0 +1,478 @@
+int IN1 = 9;
+int IN2 = 8;
+int IN3 = 7;
+int IN4 = 6;
+int ENA = 11;
+int ENB = 10;
+void setup() {
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  pinMode(ENB, OUTPUT);
+}
+void loop() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENB, 255);
+  analogWrite(ENA, 255);
+  delay(1000);
+  analogWrite(ENA, 0);
+  analogWrite(ENB, 0);
+}
+===============================การทดลอง=========================================
+1>
+	ORG	8000H
+	MOV	R0,#70H	;Start Read RAM
+	MOV	R1,#10H	;Stop-Start+1
+	MOV	DPTR,#1000H	;Save RAM
+LOOP:	MOV	A,@R0
+	MOVX	@DPTR,A
+	INC	R0
+	INC	DPTR
+	DJNZ	R1,LOOP
+	JMP	$
+	END
+
+2>
+	ORG	0000H
+	MOV	DPTR,#1100H
+	MOV	R0,#20H
+	MOV	A,#0
+LOOP:	MOVX	@DPTR,A
+	INC	DPTR
+	ADD	A,#2
+	DJNZ	R0,LOOP
+	SJMP	$
+	END
+
+3>
+	ORG	0000H
+	MOV	DPTR,#1010H
+	MOVX	A,@DPTR
+	MOV	B,A
+	
+	MOV	DPTR,#1020H
+	MOVX	A,@DPTR
+	MOV	R4,A
+	
+	MOV	DPTR,#1021H
+	MOVX	A,@DPTR
+	MOV	R5,A
+	
+	MOV	DPTR,#1030H
+	MOVX	A,@DPTR
+	MOV	R6,A
+	
+	MOV	DPTR,#1031H
+	MOVX	A,@DPTR
+	MOV	R7,A
+	
+	MOV	DPH,R4
+	MOV	DPL,R5
+LOOP:	MOV	A,B
+	MOVX	@DPTR,A
+	INC	DPTR
+	MOV	A,R6
+	CJNE	A,DPH,LOOP
+	MOV	A,R7
+	CJNE	A,DPL,LOOP
+	MOV	A,B
+	MOVX	@DPTR,A
+	SJMP	$
+	END
+
+4>
+	ORG	0000H
+	MOV	DPTR,#1020H
+	MOVX	A,@DPTR
+	MOV	R2,A
+	
+	MOV	DPTR,#1021H
+	MOVX	A,@DPTR
+	MOV	R3,A
+	
+	MOV	DPTR,#1030H
+	MOVX	A,@DPTR
+	MOV	R4,A
+	
+	MOV	DPTR,#1031H
+	MOVX	A,@DPTR
+	MOV	R5,A
+	
+	MOV	DPTR,#1040H
+	MOVX	A,@DPTR
+	MOV	R6,A
+	
+	MOV	DPTR,#1041H
+	MOVX	A,@DPTR
+	MOV	R7,A
+	
+	MOV	DPH,R4
+	MOV	DPL,R5
+	INC	DPTR
+	MOV	R4,DPH
+	MOV	R5,DPL
+	
+LOOP:	MOV	DPH,R2
+	MOV	DPL,R3
+	MOVX	A,@DPTR
+	INC	DPTR
+	MOV	R2,DPH
+	MOV	R3,DPL
+	
+	MOV	DPH,R6
+	MOV	DPL,R7
+	MOVX	@DPTR,A
+	INC	DPTR
+	MOV	R6,DPH
+	MOV	R7,DPL
+	
+	MOV	A,R2
+	MOV	B,R4
+	CJNE	A,B,LOOP
+	MOV	A,R3
+	MOV	B,R5
+	CJNE	A,B,LOOP	
+	SJMP	$
+	END
+
+6>
+	ORG	0000H
+	MAX	EQU	00H
+	MOV	DPTR,#1020H	
+	MOVX	A,@DPTR
+	MOV	R2,A
+	
+	MOV	DPTR,#1021H
+	MOVX	A,@DPTR
+	MOV	R3,A
+	
+	MOV	DPTR,#1030H	
+	MOVX	A,@DPTR
+	MOV	R4,A
+	
+	MOV	DPTR,#1031H	
+	MOVX	A,@DPTR
+	MOV	R5,A
+	
+	MOV	DPH,R4
+	MOV	DPH,R5
+	INC	DPTR
+	MOV	R4,DPH
+	MOV	R5,DPL
+	
+LOOP:	MOV	DPH,R2
+	MOV	DPL,R3
+	MOVX	A,@DPTR
+	MOV	R1,A
+	MOV	A,MAX
+	SUBB    A,R1
+	JNC	SKIP
+	
+NEW_M:	MOVX	A,@DPTR
+	MOV	MAX,A	
+	
+	MOV	DPTR,#1042H
+	MOV	A,MAX
+	MOVX	@DPTR,A
+	
+	MOV	DPTR,#1040H
+	MOV	A,R2
+	MOVX	@DPTR,A	
+	
+	MOV	DPTR,#1041H
+	MOV	A,R3
+	MOVX	@DPTR,A	
+	
+SKIP:	MOV	DPH,R2
+	MOV	DPL,R3
+	INC	DPTR
+	MOV	R2,DPH
+	MOV	R3,DPL
+	
+	MOV	DPH,R4
+	MOV	DPL,R5
+	MOV	A,R2
+	CJNE	A,DPH,LOOP
+	MOV	A,R3
+	CJNE	A,DPL,LOOP
+		
+	SJMP 	$
+	END
+
+7>
+#define LED_RD  15
+#define LED_YW  2
+#define LED_GRN 4
+#define LED_BL 5
+
+// the setup function runs once when you press reset or power the board
+void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(LED_BL, OUTPUT);
+  pinMode(LED_RD, OUTPUT);
+  pinMode(LED_YW, OUTPUT);
+  pinMode(LED_GRN, OUTPUT);
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  digitalWrite(LED_RD, HIGH);   
+  delay(200);                       
+  digitalWrite(LED_RD, LOW);    
+  delay(200);
+  
+  digitalWrite(LED_YW, HIGH);   
+  delay(200);                       
+  digitalWrite(LED_YW, LOW);    
+  delay(200);
+  
+  digitalWrite(LED_GRN, HIGH);   
+  delay(200);                       
+  digitalWrite(LED_GRN, LOW);    
+  delay(200);
+  
+  digitalWrite(LED_BL, HIGH);   
+  delay(200);                       
+  digitalWrite(LED_BL, LOW);    
+  delay(200);
+}
+
+11>
+#define SW_BOTTON1 15
+#define SW_BOTTON2 2
+#define LED_D2 4
+void setup() {
+  pinMode(LED_D2, OUTPUT);
+  pinMode(SW_BOTTON1, INPUT);
+  pinMode(SW_BOTTON2, INPUT);
+}
+void loop() {
+  int SW1 = digitalRead(SW_BOTTON1);
+  int SW2 = digitalRead(SW_BOTTON2);
+  if (SW1 == HIGH) {
+    digitalWrite(LED_D2, HIGH);
+    delay(200);
+    digitalWrite(LED_D2, LOW);
+    delay(200);
+    digitalWrite(LED_D2, HIGH);
+    delay(200);
+  } 
+  else if(SW2 == HIGH) {
+    digitalWrite(LED_D2, HIGH);
+  }
+  else{
+    digitalWrite(LED_D2, LOW);
+  }
+}
+
+13>
+#define SW_BOTTON 15
+#define LED_PIP 4
+int ch = 1;
+int SW = 0;
+void setup() {
+  pinMode(LED_PIP, OUTPUT);
+  pinMode(SW_BOTTON, INPUT);
+}
+void loop() {
+  SW = digitalRead(SW_BOTTON);
+  if (SW == LOW && ch == HIGH) {
+    while (true) {
+      SW = digitalRead(SW_BOTTON);
+      digitalWrite(LED_PIP, HIGH);
+      if (SW == HIGH) {
+        ch = LOW;
+        break;
+      }
+    }
+    delay(500);
+  } else if (SW == LOW && ch == LOW) {
+    while (true) {
+      SW = digitalRead(SW_BOTTON);
+      digitalWrite(LED_PIP, HIGH);
+      delay(200);
+      digitalWrite(LED_PIP, LOW);
+      delay(200);
+      if (SW == HIGH) {
+        ch = HIGH;
+        break;
+      }
+    }
+    delay(500);
+  } else {
+    digitalWrite(LED_PIP, LOW);
+  }
+}
+
+===================คำถามท้ายการทดลอง=================================
+1>
+	ORG	0000H
+	MOV	44H,#55H
+	MOV	55H,#66H
+	MOV	A,55H
+	MOV	DPTR,#8668H
+	MOVX	@DPTR,A
+	MOVX	A,@DPTR
+	MOV	B,A
+	
+	MOV	R0,B
+	MOV	R1,B
+	MOV	R2,B
+	MOV	R3,B
+	
+	MOV	A,R2
+	MOV	R4,B
+	MOV	R5,B
+	MOV	R6,B
+	MOV	R7,B
+	SJMP	$
+	END
+
+2>
+	ORG	0000H
+	MOV	DPTR,#9100H
+	MOV	A,#0FFH
+	MOV	R7,#10H
+	
+LOOP:	MOVX	@DPTR,A
+	INC	DPTR
+	DEC	A
+	DJNZ	R7,LOOP
+	SJMP	$
+	END
+
+3>
+	ORG	0000H
+	MOV	R0,#70H
+	MOV	R7,#10H
+LOOP:	MOV	@R0,B
+	INC	R0
+	DJNZ	R7,LOOP
+	END
+
+4>
+	ORG	0000H
+	MOV	DPTR,#9000H
+	MOV	R0,#70H
+	MOV	R7,#10H
+LOOP:	MOV	A,@R0
+	MOVX	@DPTR,A
+	INC	R0
+	INC	DPTR
+	DJNZ	R7,LOOP
+	SJMP	$
+	END
+
+5>
+	ORG	0000H
+	MOV	R0,#20H
+	MOV	R1,#50H
+	MOV	R7,#30H
+LOOP:	MOV	A,@R0
+	MOV	@R1,A
+	INC	R0
+	INC	R1
+	DJNZ	R7,LOOP
+	SJMP	$
+	END
+
+6>
+	ORG	0000H
+	MOV	DPTR,#1000H
+	MOV	R2,DPH
+	MOV	R3,DPL
+	
+	MOV	DPTR,#2300H
+	MOV	R4,DPH
+	MOV	R5,DPL
+	
+LOOP:	MOV	DPH,R2
+	MOV	DPL,R3
+	MOVX	A,@DPTR
+	INC	DPTR
+	MOV	R2,DPH
+	MOV	R3,DPL
+	
+	MOV	DPH,R4
+	MOV	DPL,R5
+	MOVX	@DPTR,A
+	INC	DPTR
+	MOV	R4,DPH
+	MOV	R5,DPL
+	
+	MOV	A,R2
+	CJNE	A,#11H,LOOP
+	MOV	A,R3
+	CJNE	A,#20H,LOOP
+	SJMP	$
+	END
+
+7>
+	ORG	0000H
+	MOV	DPTR,#9000H
+	MOVX	A,@DPTR
+	MOV	R0,A
+	
+	MOV	DPTR,#9001H
+	MOVX	A,@DPTR
+	MOV	R1,A
+	
+	MOV	DPTR,#9002H
+	MOVX	A,@DPTR
+	MOV	R2,A
+	
+	MOV	DPTR,#9003H
+	MOVX	A,@DPTR
+	MOV	R3,A
+	
+	MOV	DPTR,#9004H
+	MOVX	A,@DPTR
+	MOV	R4,A
+	
+	MOV	DPTR,#9005H
+	MOVX	A,@DPTR
+	MOV	R5,A
+	
+	MOV	DPTR,#9006H
+	MOVX	A,@DPTR
+	MOV	R6,A
+	
+	MOV	DPTR,#9007H
+	MOVX	A,@DPTR
+	MOV	R7,A
+	
+	SJMP	$
+	END
+
+8>
+	ORG 	8000H 		; 1
+	MOV 	R1,#25H 	; 2
+	MOV 	R2,#34H 	; 3
+	MOV 	A,#0F6H 	; 4
+	MOV 	@R1,#24H 	; 5
+	MOV 	26H,R2 		; 6
+	MOV 	DPTR,#8118H 	; 7
+	MOV 	27H,A 		; 8
+	MOV 	R3,#125 	; 9
+	MOV 	A,R3 		; 10
+	MOVX 	@DPTR,A 	; 11
+	MOVC 	A,@A+DPTR 	; 12
+	MOV 	B,R3 		; 13
+	MOV 	B,#11001010B 	; 14
+	MOV 	DPL,#0F4H 	; 15
+	MOV 	DPH,#88H 	; 16
+	MOVX 	@DPTR,A 	; 17
+	MOVC 	A,@A+PC 	; 18
+	MOVC 	A,@A+DPTR 	; 19
+	MOV 	R5,#36H 	; 20
+	MOV 	32H,#43H 	; 21
+	MOV 	R5,#0A4H 	; 22
+	MOV 	55H,#60H 	; 23
+	SJMP 	$ 		; 24
+	END 			; 25
+======================================================================
